@@ -1,0 +1,17 @@
+FROM golang:1.11
+
+RUN mkdir -p /usr/local/go/src/github.com/tenorbear/redis-injector/server
+RUN mkdir -p /usr/local/go/src/github.com/tenorbear/redis-injector/proto
+
+Add ./server /usr/local/go/src/github.com/tenorbear/redis-injector/server
+Add ./proto /usr/local/go/src/github.com/tenorbear/redis-injector/proto
+
+WORKDIR /usr/local/go/src/github.com/tenorbear/redis-injector/server
+
+RUN go get -d -v ./...
+
+RUN go build
+
+EXPOSE 50051
+
+ENTRYPOINT ["./server"]
